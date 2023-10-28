@@ -53,7 +53,7 @@ export async function Pokemon(props: { id: string, className?: string }) {
           {pokemon.types.map((type) => (
             <span
               key={type.type.name}
-              className="uppercase rounded-xl px-2 py-1"
+              className="uppercase rounded-xl px-2 py-1 shadow-inner shadow-white/50"
               style={{ backgroundColor: getPokeColor(type.type.name) }}
             >
               {type.type.name}
