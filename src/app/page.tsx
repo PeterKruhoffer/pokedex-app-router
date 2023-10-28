@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { Pokemon } from "~/components/Pokemon";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-stone-950 text-white">
-      <Pokemon id="149" />
-    </main>
+    <section className="relative flex flex-col justify-center items-center text-white translate-y-20">
+      <Pokemon id="1" />
+      <Link className="top-1/3 -translate-y-1/3 right-1/4 absolute border rounded-lg px-2 text-lg" href="/2">Next</Link>
+    </section>
   );
 }

@@ -1,6 +1,7 @@
 import { Fragment } from "react"
 import Image from "next/image"
 import type { Pokemon } from "pokenode-ts"
+import { AddPokemonBtn } from "./AddPokemonBtn"
 
 const colorMap = new Map<string, string>()
 colorMap.set("normal", "#A8A878")
@@ -32,54 +33,58 @@ async function getPokemon(poke: string): Promise<Pokemon> {
   return data
 }
 
-export async function Pokemon(props: { id: string }) {
+export async function Pokemon(props: { id: string, className?: string }) {
   const pokemon = await getPokemon(props.id.toLowerCase())
 
   return (
-    <div
-      className="bg-white/30 w-1/3 rounded-lg backdrop-blur flex flex-col justify-center items-center p-4"
-    >
-      <h2 className="text-lg uppercase">{pokemon.name}</h2>
-      <Image
-        src={pokemon.sprites.front_default ?? ""}
-        alt={pokemon.name}
-        width={300}
-        height={300}
-        style={{ imageRendering: "pixelated" }}
-      />
-      <div className="flex flex-row gap-4">
-        {pokemon.types.map((type) => (
-          <span
-            key={type.type.name}
-            className="uppercase rounded-xl px-2 py-1"
-            style={{ backgroundColor: getPokeColor(type.type.name) }}
-          >
-            {type.type.name}
-          </span>
-        ))}
-      </div>
-      <div className="w-full">
-        {pokemon.stats.map((stat) => (
-          <>
-            <div
-              className="flex flex-row justify-between"
+    <>
+      <div
+        className={"bg-white/30 w-1/3 rounded-lg backdrop-blur flex flex-col justify-center items-center p-4" + " " + props.className}
+      >
+        <h2 className="text-lg uppercase">{pokemon.name}</h2>
+        <Image
+          src={pokemon.sprites.front_default ?? ""}
+          alt={pokemon.name}
+          width={300}
+          height={300}
+          style={{ imageRendering: "pixelated" }}
+        />
+        <div className="flex flex-row gap-4">
+          {pokemon.types.map((type) => (
+            <span
+              key={type.type.name}
+              className="uppercase rounded-xl px-2 py-1"
+              style={{ backgroundColor: getPokeColor(type.type.name) }}
+            >
+              {type.type.name}
+            </span>
+          ))}
+        </div>
+        <div className="w-full">
+          {pokemon.stats.map((stat) => (
+            <Fragment
               key={stat.stat.name}
             >
-              <span
-                className="uppercase rounded-xl px-2 py-1"
+              <div
+                className="flex flex-row justify-between"
               >
-                {stat.stat.name}:
-              </span>
-              <span
-                className="uppercase rounded-xl px-2 py-1"
-              >
-                {stat.base_stat}
-              </span>
-            </div>
-            <div className="h-px bg-white" />
-          </>
-        ))}
+                <span
+                  className="uppercase rounded-xl px-2 py-1"
+                >
+                  {stat.stat.name}:
+                </span>
+                <span
+                  className="uppercase rounded-xl px-2 py-1"
+                >
+                  {stat.base_stat}
+                </span>
+              </div>
+              <div className="h-px bg-white" />
+            </Fragment>
+          ))}
+        </div>
       </div>
-    </div>
+      <AddPokemonBtn id={props.id} />
+    </>
   )
 }
