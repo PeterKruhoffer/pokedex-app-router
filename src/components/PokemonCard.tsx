@@ -37,7 +37,7 @@ export async function PokemonCard(props: { id: string, className?: string }) {
 
   return (
     <div
-      className={"h-72 w-full rounded-lg flex flex-col justify-center items-center p-4" + " " + props.className}
+      className={"h-72 w-full rounded-lg flex flex-col justify-center items-center p-4 shadow-inner shadow-white/50" + " " + props.className}
       style={{ backgroundColor: getPokeColor(pokemon.types.at(0)?.type.name) }}
     >
       <h2 className="text-lg uppercase">{pokemon.name}</h2>

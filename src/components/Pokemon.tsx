@@ -39,7 +39,7 @@ export async function Pokemon(props: { id: string, className?: string }) {
   return (
     <>
       <div
-        className={"bg-white/30 w-1/3 rounded-lg backdrop-blur flex flex-col justify-center items-center p-4" + " " + props.className}
+        className={"bg-white/30 w-1/3 rounded-lg backdrop-blur flex flex-col justify-center items-center p-4 shadow-inner shadow-white/50" + " " + props.className}
       >
         <h2 className="text-lg uppercase">{pokemon.name}</h2>
         <Image
