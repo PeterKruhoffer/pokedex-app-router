@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import { Roster } from "~/components/Roster";
+import Providers from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,13 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <nav className="backdrop-blur bg-stone-950 p-4">
-          <Link className="text-white" href="/">Home</Link>
-        </nav>
-        <main className="min-h-screen bg-stone-950">
-          {children}
-          <Roster />
-        </main>
+        <Providers>
+          <nav className="backdrop-blur bg-stone-950 p-4">
+            <Link className="text-white" href="/">Home</Link>
+          </nav>
+          <main className="min-h-screen bg-stone-950">
+            {children}
+            <Roster />
+          </main>
+        </Providers>
       </body>
     </html>
   );

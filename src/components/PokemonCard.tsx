@@ -1,6 +1,8 @@
-import { Fragment } from "react"
+"use client"
 import Image from "next/image"
 import type { Pokemon } from "pokenode-ts"
+import { useQuery } from "@tanstack/react-query"
+import { cn } from "~/util"
 
 const colorMap = new Map<string, string>()
 colorMap.set("normal", "#A8A878")
@@ -32,24 +34,33 @@ async function getPokemon(poke: string): Promise<Pokemon> {
   return data
 }
 
-export async function PokemonCard(props: { id: string, className?: string }) {
-  const pokemon = await getPokemon(props.id.toLowerCase())
+export function PokemonCard(props: { id: string, className?: string }) {
+  const { data } = useQuery({
+    queryKey: ["pokemon", props.id],
+    queryFn: () => getPokemon(props.id.toLowerCase())
+  })
+  if (!data) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div
-      className={"h-72 w-full rounded-lg flex flex-col justify-center items-center p-4 shadow-inner shadow-white/50" + " " + props.className}
-      style={{ backgroundColor: getPokeColor(pokemon.types.at(0)?.type.name) }}
+      className={cn(
+        "h-72 w-full rounded-lg flex flex-col justify-center items-center p-4 shadow-inner shadow-white/50",
+        props.className
+      )}
+      style={{ backgroundColor: getPokeColor(data.types.at(0)?.type.name) }}
     >
-      <h2 className="text-lg uppercase">{pokemon.name}</h2>
+      <h2 className="text-lg uppercase">{data.name}</h2>
       <Image
-        src={pokemon.sprites.front_default ?? ""}
-        alt={pokemon.name}
+        src={data.sprites.front_default ?? ""}
+        alt={data.name}
         width={300}
         height={300}
         style={{ imageRendering: "pixelated" }}
       />
       <div className="flex flex-row gap-4">
-        {pokemon.types.map((type) => (
+        {data.types.map((type) => (
           <span
             key={type.type.name}
             className="uppercase rounded-xl px-2 py-1 border shadow-inner shadow-white/50"
